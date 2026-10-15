@@ -1,12 +1,14 @@
-import EquipamentoModel from '../models/EquipamentoModel.js';
-import TecnicoModel from '../models/TecnicoModel.js';
-
-class AuditoriaController {
-  gerarRelatorioGeral() {
+import { EquipamentoModel } from '../models/EquipamentoModel.js';
+import { TecnicoModel } from '../models/TecnicoModel.js';
+ 
+export class AuditoriaController {
+  static gerarRelatorioGeral() {
     try {
       const equipamentos = EquipamentoModel.listarInventario();
       const tecnicos = TecnicoModel.listarEquipe();
-      const relatorio = {
+ 
+      return {
+        status: 200,
         dataGeracao: new Date().toLocaleString('pt-BR'),
         resumo: {
           totalEquipamentos: equipamentos.length,
@@ -17,12 +19,11 @@ class AuditoriaController {
           equipeTecnicos: tecnicos
         }
       };
-
-      console.log('\n=== RELATÓRIO DE AUDITORIA GERAL ===');
-      console.log(JSON.stringify(relatorio, null, 2));
     } catch (error) {
-      console.error(`Erro ao gerar relatório de auditoria: ${error.message}`);
+      return {
+        status: 500,
+        erro: `Erro ao gerar relatório de auditoria: ${error.message}`
+      };
     }
   }
 }
-export default new AuditoriaController();

@@ -1,42 +1,65 @@
-import { EquipamentoModel } from "../models/EquipamentoModel"; 
-
-export class EquipamentoController {
-    constructor() {}
-processarEntradaEquipamento(tagPatrimonio, tipoEquipamento, capacidadeRam) {
-    try {
-        console.log(`\n[TECH PRIME] Iniciando entrada...`);
-        
-    const equipamento = EquipamentoModel.registrarAtivo(tagPatrimonio, tipoEquipamento, capacidadeRam);
-
-        console.log(`[TECH PRIME] Registro feito com sucesso!`);
-        console.log(`[TECH PRIME] Tag: ${equipamento.tagPatrimonio} || Tipo: ${equipamento.tipoEquipamento} | RAM: ${equipamento.capacidadeRam}GB`);
-    } 
-    catch (erroCapturado ) {
-        console.log(`[TECH PRIME] Erro identificado no equipamento`);
-        this.traduzirErro(erroCapturado.message);
+export class EquipamentoModel {
+  #tagPatrimonio;
+  #tipoEquipamento;
+  #capacidadeRam;
+ 
+  // static: pertence à classe, não às instâncias
+  static #bancoFalso = [];
+ 
+  constructor(tagPatrimonio, tipoEquipamento, capacidadeRam) {
+    this.#tagPatrimonio = tagPatrimonio;
+    this.#tipoEquipamento = tipoEquipamento;
+    this.#capacidadeRam = capacidadeRam;
+  }
+ 
+  static registrarAtivo(tagPatrimonio, tipoEquipamento, capacidadeRam) {
+    const ramMinima = 8;
+    const ram = Number(capacidadeRam);
+ 
+    if (!tagPatrimonio || tagPatrimonio.trim() === '') {
+      throw new Error('ERR_TAG_VAZIA');
     }
-}
-consultarCatalogo() {
-    const inventario = EquipamentoModel.listarInventario();
-
-    console.log(`\n[TECH PRIME] === CATÁLOGO DE EQUIPAMENTOS ===`);
-
-    if (inventario.length === 0) {
-        console.log(`[TECH PRIME] Nenhum equipamento cadastrado.`);
-        return;
+ 
+    const tiposValidos = ['Desktop', 'Notebook', 'Servidor'];
+    const tipoFormatado = String(tipoEquipamento || '').trim();
+    const tipoValido = tiposValidos.find(
+      (t) => t.toLowerCase() === tipoFormatado.toLowerCase()
+    );
+    if (!tipoValido) {
+      throw new Error('ERR_TIPO_INVALIDO');
     }
-
-    for (let i=0; i < inventario.length; i++) {
-        const equipamento = inventario[i];
-        console.log(`${i+1}. Tag: ${equipamento.tagPatrimonio} | Tipo: ${equipamento.tipoEquipamento} | RAM: ${equipamento.capacidadeRam}GB`);
+ 
+    if (Number.isNaN(ram) || ram < ramMinima) {
+      throw new Error('ERR_RAM_INSUFICIENTE');
     }
-}
-    traduzirErro(codigoErro) {
-        if (codigoErro === "ERR_RAM_INSUFICIENTE") {
-            console.log(`[TECH PRIME] A memória RAM da máquina tem uma quantidade insuficiente de RAM`);
-        }
-        else if (codigoErro === "ERR_TAG_VAZIA") {
-            console.log(`[TECH PRIME] A Tag de Patrimônio está vazia!`);
-        }
-    }
+ 
+    const novoEquipamento = new EquipamentoModel(tagPatrimonio.trim(), tipoValido, ram);
+    EquipamentoModel.#bancoFalso.push(novoEquipamento);
+    return novoEquipamento;
+  }
+ 
+  static listarInventario() {
+    return [...EquipamentoModel.#bancoFalso];
+  }
+ 
+  get tagPatrimonio() {
+    return this.#tagPatrimonio;
+  }
+ 
+  get tipoEquipamento() {
+    return this.#tipoEquipamento;
+  }
+ 
+  get capacidadeRam() {
+    return this.#capacidadeRam;
+  }
+ 
+  
+  toJSON() {
+    return {
+      tagPatrimonio: this.#tagPatrimonio,
+      tipoEquipamento: this.#tipoEquipamento,
+      capacidadeRam: this.#capacidadeRam
+    };
+  }
 }
