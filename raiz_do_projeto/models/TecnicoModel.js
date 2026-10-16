@@ -22,7 +22,7 @@ export class TecnicoModel {
     const turnoFormatado = String(turnoTrabalho || '').trim();
     const turnoValido = turnosValidos.find(
       (t) => t.toLowerCase() === turnoFormatado.toLowerCase()
-    //t serve para verificar se o turno informado é válido, caso contrário, será lançada uma exceção
+      //t serve para verificar se o turno informado é válido, caso contrário, será lançada uma exceção
     );
     if (!turnoValido) {
       throw new Error('Regra de Segurança Violada: Turno inválido.');
@@ -30,7 +30,7 @@ export class TecnicoModel {
  
     const novoTecnico = new TecnicoModel(
       nomeCompleto ? nomeCompleto.trim() : 'Não Informado',
-      // ? serve para verificar se o nomeCompleto é válido, caso contrário, aparecerá "Não Informado"
+       // ? serve para verificar se o nomeCompleto é válido, caso contrário, aparecerá "Não Informado"
       credencialAcesso.trim(),
       turnoValido
     );

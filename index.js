@@ -1,4 +1,4 @@
-import readline from 'readline';
+import readline from 'readline/promises';
 import { stdin as input, stdout as output } from 'process';
 import { EquipamentoController } from './raiz_do_projeto/controllers/EquipamentoController.js';
 import { TecnicoController } from './raiz_do_projeto/controllers/TecnicoController.js';
@@ -6,13 +6,12 @@ import { AuditoriaController } from './raiz_do_projeto/controllers/AuditoriaCont
  
 const rl = readline.createInterface({ input, output });
  
-const question = (query) => new Promise((resolve) => rl.question(query, resolve));
- 
 function mostrarEquipamento(e, i) {
   console.log(`${i + 1}. Tag: ${e.tagPatrimonio} | Tipo: ${e.tipoEquipamento} | RAM: ${e.capacidadeRam} GB`);
-//i + 1: exibe o índice do equipamento na lista, começando de 1
-//e, i: e representa o equipamento atual, i representa o índice do equipamento na lista
-//e.tagPatrimonio, e.tipoEquipamento, e.capacidadeRam: exibe as informações do equipamento atual
+  //i + 1: exibe o índice do equipamento na lista, começando de 1
+  //e, i: e representa o equipamento atual, i representa o índice do equipamento na lista
+  //e.tagPatrimonio, e.tipoEquipamento, e.capacidadeRam: exibe as informações do equipamento atual
+
 }
  
 function mostrarTecnico(t, i) {
@@ -24,9 +23,9 @@ function mostrarTecnico(t, i) {
  
 async function exibirMenu() {
   while (true) {
-    console.log('\n========================================');
+    console.log('\n======================================================');
     console.log('  SISTEMA DE GERENCIAMENTO DE EQUIPAMENTOS E TÉCNICOS');
-    console.log('========================================');
+    console.log('======================================================');
     console.log('1 - Cadastrar Equipamento');
     console.log('2 - Listar Equipamentos');
     console.log('3 - Cadastrar Técnico');
@@ -34,14 +33,14 @@ async function exibirMenu() {
     console.log('5 - Relatório de Auditoria Geral');
     console.log('0 - Sair do Sistema');
  
-    const opcao = (await question('Escolha uma opção: ')).trim();
+    const opcao = (await rl.question('Escolha uma opção: ')).trim();
  
     switch (opcao) {
       case '1': {
         console.log('\n--- Cadastro de Equipamento ---');
-        const tipo = await question('Tipo (Desktop/Notebook/Servidor): ');
-        const tag = await question('Tag de Patrimônio: ');
-        const ram = await question('Capacidade de RAM (GB): ');
+        const tipo = await rl.question('Tipo (Desktop/Notebook/Servidor): ');
+        const tag = await rl.question('Tag de Patrimônio: ');
+        const ram = await rl.question('Capacidade de RAM (GB): ');
  
         const resultado = EquipamentoController.processarEntradaEquipamento(tag, tipo, ram);
         if (resultado.status === 201) {
@@ -68,9 +67,9 @@ async function exibirMenu() {
  
       case '3': {
         console.log('\n--- Cadastro de Técnico ---');
-        const nome = await question('Nome Completo: ');
-        const credencial = await question('Credencial de Acesso: ');
-        const turno = await question('Turno (Manhã/Tarde/Noite): ');
+        const nome = await rl.question('Nome Completo: ');
+        const credencial = await rl.question('Credencial de Acesso: ');
+        const turno = await rl.question('Turno (Manhã/Tarde/Noite): ');
  
         const resultado = TecnicoController.processarAdmissao(nome, credencial, turno);
         if (resultado.status === 201) {

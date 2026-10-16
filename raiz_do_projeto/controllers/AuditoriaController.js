@@ -9,7 +9,8 @@ export class AuditoriaController {
  
       return {
         status: 200,
-        dataGeracao: new Date().toLocaleString('pt-BR'),
+       
+        //data e hora atuais em formato brasileiro
         resumo: {
           totalEquipamentos: equipamentos.length,
           totalTecnicos: tecnicos.length
