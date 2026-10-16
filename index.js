@@ -10,10 +10,16 @@ const question = (query) => new Promise((resolve) => rl.question(query, resolve)
  
 function mostrarEquipamento(e, i) {
   console.log(`${i + 1}. Tag: ${e.tagPatrimonio} | Tipo: ${e.tipoEquipamento} | RAM: ${e.capacidadeRam} GB`);
+//i + 1: exibe o índice do equipamento na lista, começando de 1
+//e, i: e representa o equipamento atual, i representa o índice do equipamento na lista
+//e.tagPatrimonio, e.tipoEquipamento, e.capacidadeRam: exibe as informações do equipamento atual
 }
  
 function mostrarTecnico(t, i) {
   console.log(`${i + 1}. Nome: ${t.nomeCompleto} | Turno: ${t.turnoTrabalho}`);
+  //i + 1: exibe o índice do técnico na lista, começando de 1
+  //t, i: t representa o técnico atual, i representa o índice do técnico na lista
+  //t.nomeCompleto, t.turnoTrabalho: exibe as informações do técnico atual
 }
  
 async function exibirMenu() {
