@@ -32,6 +32,6 @@ export class EquipamentoController {
       ERR_TAG_VAZIA: 'A Tag de Patrimônio está vazia.',
       ERR_TIPO_INVALIDO: 'Tipo inválido. Use Desktop, Notebook ou Servidor.'
     };
-    return mensagens[codigoErro] ?? codigoErro;
+      return mensagens[codigoErro] ?? codigoErro;
   }
-}
+}0

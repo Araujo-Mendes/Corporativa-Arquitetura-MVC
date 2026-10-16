@@ -24,6 +24,7 @@ export class EquipamentoModel {
     const tipoFormatado = String(tipoEquipamento || '').trim();
     const tipoValido = tiposValidos.find(
       (t) => t.toLowerCase() === tipoFormatado.toLowerCase()
+       //toLowerCase para não diferenciar maiúsculas de minúsculas
     );
     if (!tipoValido) {
       throw new Error('ERR_TIPO_INVALIDO');
@@ -40,6 +41,7 @@ export class EquipamentoModel {
  
   static listarInventario() {
     return [...EquipamentoModel.#bancoFalso];
+     //...: operador de espalhamento, cria uma cópia do array
   }
  
   get tagPatrimonio() {
@@ -56,10 +58,16 @@ export class EquipamentoModel {
  
   
   toJSON() {
+    // Método que retorna um objeto JSON com os dados do equipamento
     return {
       tagPatrimonio: this.#tagPatrimonio,
       tipoEquipamento: this.#tipoEquipamento,
       capacidadeRam: this.#capacidadeRam
     };
+    // Retorna a mensagem personalizada correspondente ao erro.
+    // Se a chave não existir no objeto 'mensagens' (retornar null ou undefined),
+    // o operador '??' (coalescência nula) retorna o próprio 'codigoErro'.
+      return mensagens[codigoErro] ?? codigoErro;
+      //
   }
 }
