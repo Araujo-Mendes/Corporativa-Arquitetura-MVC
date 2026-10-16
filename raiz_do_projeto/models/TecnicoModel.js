@@ -58,6 +58,7 @@ export class TecnicoModel {
   toJSON() {
     return {
       nomeCompleto: this.#nomeCompleto,
+      credencialAcesso: this.#credencialAcesso,
       turnoTrabalho: this.#turnoTrabalho
     };
   }

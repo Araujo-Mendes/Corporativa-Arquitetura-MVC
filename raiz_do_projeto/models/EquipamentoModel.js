@@ -41,7 +41,7 @@ export class EquipamentoModel {
  
   static listarInventario() {
     return [...EquipamentoModel.#bancoFalso];
-     //...: operador de espalhamento, cria uma cópia do array
+
   }
  
   get tagPatrimonio() {
